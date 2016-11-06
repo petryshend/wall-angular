@@ -1,22 +1,18 @@
-import { Component } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
+import {NoteService} from "./note/note.service";
 import {Note} from "./note/note";
-
-const NOTES: Note[] =[
-    { content: 'content 1' },
-    { content: 'content 2' },
-    { content: 'content 3' },
-    { content: 'content 4' },
-    { content: 'content 5' },
-    { content: 'content 6' },
-    { content: 'content 7' },
-    { content: 'content 8' },
-    { content: 'content 9' },
-];
 
 @Component({
     selector: 'wall',
-    templateUrl: 'app/wall.component.html'
+    templateUrl: 'app/wall.component.html',
+    providers: [NoteService]
 })
-export class WallComponent {
-    notes = NOTES;
+export class WallComponent implements OnInit {
+    notes: Note[];
+
+    constructor(private noteService: NoteService) {}
+
+    ngOnInit(): void {
+        this.noteService.getNotes().then(notes => this.notes = notes);
+    }
 }
